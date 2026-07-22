@@ -1,0 +1,9 @@
+# Copy to .npmrc (gitignored / or committed without the token) to publish and
+# consume @nybian/web-kit from a private registry. Example for GitHub Packages —
+# swap in your org and a token with read:packages / write:packages as needed.
+#
+# @nybian:registry=https://npm.pkg.github.com
+# //npm.pkg.github.com/:_authToken=${NYBIAN_PACKAGES_TOKEN}
+#
+# For a private npm (npmjs.com) org instead, `publishConfig.access` is already
+# "restricted" in package.json — just `npm login` to the @nybian org and publish.
