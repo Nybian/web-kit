@@ -69,8 +69,9 @@ export function NybHeroBalance({
         <span className="text-5xl font-bold tracking-tight text-foreground sm:text-6xl">
           ${whole}
         </span>
+        {/* Superscript cents with no decimal point — $1,498¹⁰, not $1,498.¹⁰ (NYB QA). */}
         <span className="ml-0.5 align-top text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-          .{cents}
+          {cents}
         </span>
       </div>
 

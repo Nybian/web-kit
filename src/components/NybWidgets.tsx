@@ -101,7 +101,7 @@ export function NybKpiCard({
         </span>
         {cents !== undefined && (
           <span className="ml-0.5 align-top text-base font-bold tracking-tight text-foreground">
-            .{cents}
+            {cents}
           </span>
         )}
       </div>
