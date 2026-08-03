@@ -220,7 +220,7 @@ function NybHeroBalance({
         outflow
       ] })
     ] }),
-    /* @__PURE__ */ jsx("div", { className: "-mx-2 mt-auto h-44 sm:h-48 select-none [&_.recharts-wrapper]:outline-none [&_.recharts-surface]:outline-none [&_[tabindex]]:outline-none [&_.recharts-cartesian-axis-tick-value]:pointer-events-none", children: chart ?? /* @__PURE__ */ jsx("div", { className: "flex h-full items-center justify-center text-xs text-muted-foreground", children: emptyChartLabel }) })
+    /* @__PURE__ */ jsx("div", { className: "-mx-2 mt-auto h-44 sm:h-48 select-none [&_.recharts-wrapper]:outline-none [&_.recharts-surface]:outline-none [&_[tabindex]]:outline-none [&_.recharts-cartesian-axis-tick-value]:pointer-events-none [&_.recharts-cartesian-axis-tick-value]:[font-variant-numeric:tabular-nums]", children: chart ?? /* @__PURE__ */ jsx("div", { className: "flex h-full items-center justify-center text-xs text-muted-foreground", children: emptyChartLabel }) })
   ] });
 }
 function NybAccountsPanel({

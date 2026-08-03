@@ -115,7 +115,7 @@ export function NybHeroBalance({
           The host must ALSO pass accessibilityLayer={false} on its chart —
           recharts v3 otherwise puts tabindex="0" + role="application" on the
           <svg>, so clicking the graph focuses it. */}
-      <div className="-mx-2 mt-auto h-44 sm:h-48 select-none [&_.recharts-wrapper]:outline-none [&_.recharts-surface]:outline-none [&_[tabindex]]:outline-none [&_.recharts-cartesian-axis-tick-value]:pointer-events-none">
+      <div className="-mx-2 mt-auto h-44 sm:h-48 select-none [&_.recharts-wrapper]:outline-none [&_.recharts-surface]:outline-none [&_[tabindex]]:outline-none [&_.recharts-cartesian-axis-tick-value]:pointer-events-none [&_.recharts-cartesian-axis-tick-value]:[font-variant-numeric:tabular-nums]">
         {chart ?? (
           <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
             {emptyChartLabel}
