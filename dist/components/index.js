@@ -244,10 +244,7 @@ function NybAccountsPanel({
         /* @__PURE__ */ jsxs("p", { className: "text-base font-bold text-foreground tracking-tight truncate leading-tight mt-0.5", children: [
           "$",
           bal.whole,
-          /* @__PURE__ */ jsxs("span", { className: "text-xs font-normal text-muted-foreground", children: [
-            ".",
-            bal.cents
-          ] })
+          /* @__PURE__ */ jsx("span", { className: "ml-0.5 align-top text-xs font-normal text-muted-foreground", children: bal.cents })
         ] })
       ] }),
       /* @__PURE__ */ jsx("div", { className: "flex h-7 w-7 items-center justify-center rounded-full flex-shrink-0 bg-muted", children: /* @__PURE__ */ jsx(Wallet, { className: "h-3.5 w-3.5 text-muted-foreground", "aria-hidden": true }) })

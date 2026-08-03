@@ -182,7 +182,14 @@ export function NybAccountsPanel({
           </p>
           <p className="text-base font-bold text-foreground tracking-tight truncate leading-tight mt-0.5">
             ${bal.whole}
-            <span className="text-xs font-normal text-muted-foreground">.{bal.cents}</span>
+            {/* Superscript cents, no decimal point — $1,498¹⁰ not $1,498.¹⁰ (NYB-598).
+                That sweep fixed NybHeroBalance and NybKpiCard but missed this row, so
+                the wallets panel kept rendering a dot right under a dotless hero.
+                `align-top` is required, not cosmetic: without it the cents sit on the
+                baseline and a dotless "$24,903 86" reads as two numbers. */}
+            <span className="ml-0.5 align-top text-xs font-normal text-muted-foreground">
+              {bal.cents}
+            </span>
           </p>
         </div>
         <div className="flex h-7 w-7 items-center justify-center rounded-full flex-shrink-0 bg-muted">
