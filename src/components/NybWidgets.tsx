@@ -170,7 +170,17 @@ export function NybWidgetCard({
       style={style}
     >
       <div className="mb-4 flex items-center justify-between gap-2">
-        <h3 className="text-base font-semibold sm:text-lg">{title}</h3>
+        {/* text-foreground is explicit, not inherited. This heading previously
+            carried no colour class and fell through to the card's
+            `text-card-foreground`. That works in web-app, whose :root defines
+            --card-foreground — but the admin config preview scopes a theme by
+            injecting a small set of vars inline (--card, --background,
+            --foreground, --primary, --border, --input, --muted, --accent,
+            --ring) and does NOT inject --card-foreground, so the title resolved
+            against whatever cascaded in and read as invisible. Every heading
+            that renders correctly in that preview uses --foreground, so bind to
+            it directly rather than depending on a var the host may not set. */}
+        <h3 className="text-base font-semibold text-foreground sm:text-lg">{title}</h3>
         {headerAction}
       </div>
       {children}

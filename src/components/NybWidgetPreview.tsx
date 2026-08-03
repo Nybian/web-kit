@@ -1,4 +1,4 @@
-import { ArrowDownLeft, ArrowUpRight } from 'lucide-react'
+import { ArrowDownLeft, ArrowUpRight, Zap } from 'lucide-react'
 import { NybAccountsPanel, NybHeroBalance } from './NybDashboardCards'
 import type { NybAccountRow } from './NybDashboardCards'
 import {
@@ -45,6 +45,23 @@ const LIST_SAMPLES: Record<
     rows: [
       { primary: 'Falcon Charter', secondary: 'Due 12 days ago', value: '$8,400' },
       { primary: 'Skyline Ops', secondary: 'Due 3 days ago', value: '$2,150' },
+    ],
+  },
+  // Broker pipeline — one row per deal status, count on the left, bucket value
+  // on the right (web-app's WidgetBrokerPipeline renders the live equivalent).
+  broker_pipeline: {
+    rows: [
+      { primary: 'Quoted', secondary: '4 deals', value: '$96,500' },
+      { primary: 'Booked', secondary: '2 deals', value: '$54,000' },
+      { primary: 'In review', secondary: '3 deals', value: '$35,500' },
+    ],
+  },
+  // Broker upcoming flights — route on the left, departure date as the value.
+  broker_upcoming_flights: {
+    rows: [
+      { primary: 'KTEB → KMIA', secondary: 'Meridian Group', value: 'Aug 12' },
+      { primary: 'EGLL → LFPB', secondary: 'Ardent Capital', value: 'Aug 15' },
+      { primary: 'KVNY → KLAS', secondary: 'Cobalt Air', value: 'Aug 19' },
     ],
   },
   received_payment_requests: {
@@ -310,6 +327,35 @@ export function NybWidgetPreview({ widget }: { widget: ResolvedWidget }) {
     )
   }
 
+  if (code === 'broker_action_items') {
+    // Attention banner: warning-tinted surface, one chip per deal awaiting the
+    // broker's review. Mirrors web-app's WidgetBrokerActionItems, which also
+    // renders no heading — production shows the count sentence, not a title.
+    return (
+      <div className="rounded-lg border border-warning/30 bg-warning/10 p-4">
+        <div className="flex items-start gap-3">
+          <Zap className="mt-0.5 h-5 w-5 shrink-0 text-warning" aria-hidden />
+          <div className="flex-1 space-y-2">
+            <p className="text-sm font-semibold text-foreground">3 deals need your attention</p>
+            <div className="flex flex-wrap gap-2">
+              {['KTEB → KMIA', 'EGLL → LFPB', 'KVNY → KLAS'].map((route) => (
+                <span
+                  key={route}
+                  className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-foreground"
+                >
+                  {route}
+                  <span className="rounded-full bg-secondary px-1.5 text-[10px] uppercase text-secondary-foreground">
+                    In review
+                  </span>
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   if (code === 'pending_banner') {
     return (
       <NybPendingBanner
@@ -414,6 +460,7 @@ const SAMPLE_SPECIAL_CODES = [
   'flyer_accounts_panel',
   'flyer_kpis',
   'flyer_money_movement',
+  'broker_action_items',
 ] as const
 
 const HANDLED_CODES = new Set<string>([

@@ -147,6 +147,27 @@ declare const WIDGET_MANIFEST: {
         readonly defaultRowSpan: 1;
         readonly permissionCode: "dashboard:read";
     };
+    readonly broker_action_items: {
+        readonly kind: "widget";
+        readonly slot: "kpi";
+        readonly defaultColSpan: 12;
+        readonly defaultRowSpan: 1;
+        readonly permissionCode: "dashboard:read";
+    };
+    readonly broker_pipeline: {
+        readonly kind: "widget";
+        readonly slot: "kpi";
+        readonly defaultColSpan: 6;
+        readonly defaultRowSpan: 2;
+        readonly permissionCode: "dashboard:read";
+    };
+    readonly broker_upcoming_flights: {
+        readonly kind: "widget";
+        readonly slot: "kpi";
+        readonly defaultColSpan: 6;
+        readonly defaultRowSpan: 2;
+        readonly permissionCode: "dashboard:read";
+    };
     readonly fuel_kpis: {
         readonly kind: "widget";
         readonly slot: "kpi";

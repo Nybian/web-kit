@@ -1,5 +1,5 @@
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
-import { BadgeCheck, ArrowUpRight, ArrowDownRight, ArrowRight, MoreHorizontal, Bell, X, TrendingUp, TrendingDown, ArrowDownLeft, Wallet, Star, ArrowUp, ArrowDown } from 'lucide-react';
+import { BadgeCheck, ArrowUpRight, ArrowDownRight, ArrowRight, MoreHorizontal, Bell, X, TrendingUp, TrendingDown, Zap, ArrowDownLeft, Wallet, Star, ArrowUp, ArrowDown } from 'lucide-react';
 
 // src/portal/resolve.ts
 var MOBILE_BOTTOM_BAR_MAX = 4;
@@ -356,7 +356,7 @@ function NybWidgetCard({
       style,
       children: [
         /* @__PURE__ */ jsxs("div", { className: "mb-4 flex items-center justify-between gap-2", children: [
-          /* @__PURE__ */ jsx("h3", { className: "text-base font-semibold sm:text-lg", children: title }),
+          /* @__PURE__ */ jsx("h3", { className: "text-base font-semibold text-foreground sm:text-lg", children: title }),
           headerAction
         ] }),
         children
@@ -482,6 +482,23 @@ var LIST_SAMPLES = {
     rows: [
       { primary: "Falcon Charter", secondary: "Due 12 days ago", value: "$8,400" },
       { primary: "Skyline Ops", secondary: "Due 3 days ago", value: "$2,150" }
+    ]
+  },
+  // Broker pipeline — one row per deal status, count on the left, bucket value
+  // on the right (web-app's WidgetBrokerPipeline renders the live equivalent).
+  broker_pipeline: {
+    rows: [
+      { primary: "Quoted", secondary: "4 deals", value: "$96,500" },
+      { primary: "Booked", secondary: "2 deals", value: "$54,000" },
+      { primary: "In review", secondary: "3 deals", value: "$35,500" }
+    ]
+  },
+  // Broker upcoming flights — route on the left, departure date as the value.
+  broker_upcoming_flights: {
+    rows: [
+      { primary: "KTEB \u2192 KMIA", secondary: "Meridian Group", value: "Aug 12" },
+      { primary: "EGLL \u2192 LFPB", secondary: "Ardent Capital", value: "Aug 15" },
+      { primary: "KVNY \u2192 KLAS", secondary: "Cobalt Air", value: "Aug 19" }
     ]
   },
   received_payment_requests: {
@@ -683,6 +700,25 @@ function NybWidgetPreview({ widget }) {
       ["Upcoming", "5"]
     ].map(([label, value]) => /* @__PURE__ */ jsx(NybKpiCard, { title: label, whole: value, subtitle: "30 days" }, label)) });
   }
+  if (code === "broker_action_items") {
+    return /* @__PURE__ */ jsx("div", { className: "rounded-lg border border-warning/30 bg-warning/10 p-4", children: /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-3", children: [
+      /* @__PURE__ */ jsx(Zap, { className: "mt-0.5 h-5 w-5 shrink-0 text-warning", "aria-hidden": true }),
+      /* @__PURE__ */ jsxs("div", { className: "flex-1 space-y-2", children: [
+        /* @__PURE__ */ jsx("p", { className: "text-sm font-semibold text-foreground", children: "3 deals need your attention" }),
+        /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-2", children: ["KTEB \u2192 KMIA", "EGLL \u2192 LFPB", "KVNY \u2192 KLAS"].map((route) => /* @__PURE__ */ jsxs(
+          "span",
+          {
+            className: "inline-flex items-center gap-2 rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-foreground",
+            children: [
+              route,
+              /* @__PURE__ */ jsx("span", { className: "rounded-full bg-secondary px-1.5 text-[10px] uppercase text-secondary-foreground", children: "In review" })
+            ]
+          },
+          route
+        )) })
+      ] })
+    ] }) });
+  }
   if (code === "pending_banner") {
     return /* @__PURE__ */ jsx(
       NybPendingBanner,
@@ -763,7 +799,8 @@ var SAMPLE_SPECIAL_CODES = [
   "flyer_hero_balance",
   "flyer_accounts_panel",
   "flyer_kpis",
-  "flyer_money_movement"
+  "flyer_money_movement",
+  "broker_action_items"
 ];
 var HANDLED_CODES = /* @__PURE__ */ new Set([
   ...Object.keys(KPI_SAMPLES),
