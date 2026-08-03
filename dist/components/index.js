@@ -398,11 +398,16 @@ function NybListRow({
       ] })
     ] }),
     /* @__PURE__ */ jsxs("div", { className: "flex shrink-0 items-center gap-2", children: [
-      value !== void 0 && /* @__PURE__ */ jsx(
+      value !== void 0 && // tabular-nums: this slot renders money (transaction amounts, payment
+      // request totals, deal values) but is NOT one of the numeric-* type
+      // tokens that bake tabular figures in, so it has to be explicit —
+      // web-app docs/typography.md rule 1. Without it, digits shift width
+      // between rows and the right-aligned column visibly ragged.
+      /* @__PURE__ */ jsx(
         "span",
         {
           className: cx2(
-            "text-sm font-semibold",
+            "text-sm font-semibold tabular-nums",
             valueTone === "success" && "text-success",
             valueTone === "destructive" && "text-destructive"
           ),
