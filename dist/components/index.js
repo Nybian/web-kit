@@ -375,7 +375,8 @@ function NybListRow({
   tertiary,
   value,
   valueTone = "default",
-  action
+  action,
+  valueGap = "tight"
 }) {
   return /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-3", children: [
     /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 items-center gap-3", children: [
@@ -397,7 +398,7 @@ function NybListRow({
         tertiary && /* @__PURE__ */ jsx("p", { className: "truncate font-mono text-xs text-muted-foreground/60", children: tertiary })
       ] })
     ] }),
-    /* @__PURE__ */ jsxs("div", { className: "flex shrink-0 items-center gap-2", children: [
+    /* @__PURE__ */ jsxs("div", { className: cx2("flex shrink-0 items-center", valueGap === "roomy" ? "gap-3" : "gap-2"), children: [
       value !== void 0 && // tabular-nums: this slot renders money (transaction amounts, payment
       // request totals, deal values) but is NOT one of the numeric-* type
       // tokens that bake tabular figures in, so it has to be explicit —

@@ -191,6 +191,15 @@ export interface NybListRowProps {
   valueTone?: 'success' | 'destructive' | 'default'
   /** Trailing interactive slot (dropdown menu etc.) — web-app only. */
   action?: ReactNode
+  /**
+   * Spacing between the value and the trailing slot. The release surfaces this
+   * presenter replaced were not uniform: the transaction list paired the amount
+   * with a kebab menu at `gap-2` ('tight'), while the broker deal list paired it
+   * with a status pill at `gap-3` ('roomy') — a pill needs the extra air to read
+   * as a separate object rather than a suffix on the number. Defaults to
+   * 'tight', so existing callers are unchanged.
+   */
+  valueGap?: 'tight' | 'roomy'
 }
 
 export function NybListRow({
@@ -202,6 +211,7 @@ export function NybListRow({
   value,
   valueTone = 'default',
   action,
+  valueGap = 'tight',
 }: Readonly<NybListRowProps>) {
   return (
     <div className="flex items-center justify-between gap-3">
@@ -226,7 +236,7 @@ export function NybListRow({
           )}
         </div>
       </div>
-      <div className="flex shrink-0 items-center gap-2">
+      <div className={cx('flex shrink-0 items-center', valueGap === 'roomy' ? 'gap-3' : 'gap-2')}>
         {value !== undefined && (
           // tabular-nums: this slot renders money (transaction amounts, payment
           // request totals, deal values) but is NOT one of the numeric-* type
