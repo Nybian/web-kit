@@ -159,12 +159,14 @@ export function NybWidgetCard({
   className,
   style,
 }: Readonly<NybWidgetCardProps>) {
+  // `.app-card` already supplies rounded-xl + bg-card + shadow and forces
+  // `border: none`. Re-declaring `rounded-lg`/`border` here was wrong: the
+  // utilities layer beats the components layer, so `rounded-lg` silently
+  // downgraded the radius to 8px (production tiles are 12px) while `border`
+  // rendered nothing at all. Let app-card own the frame.
   return (
     <div
-      className={cx(
-        'app-card rounded-lg border bg-card text-card-foreground !p-5 sm:!p-6',
-        className
-      )}
+      className={cx('app-card bg-card text-card-foreground !p-5 sm:!p-6', className)}
       style={style}
     >
       <div className="mb-4 flex items-center justify-between gap-2">

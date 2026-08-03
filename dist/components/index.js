@@ -1,5 +1,5 @@
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
-import { BadgeCheck, ChevronDown, ArrowUpRight, ArrowDownRight, ArrowRight, MoreHorizontal, Bell, X, TrendingUp, TrendingDown, ArrowDownLeft, Wallet, Star, ArrowUp, ArrowDown } from 'lucide-react';
+import { BadgeCheck, ArrowUpRight, ArrowDownRight, ArrowRight, MoreHorizontal, Bell, X, TrendingUp, TrendingDown, ArrowDownLeft, Wallet, Star, ArrowUp, ArrowDown } from 'lucide-react';
 
 // src/portal/resolve.ts
 var MOBILE_BOTTOM_BAR_MAX = 4;
@@ -197,7 +197,7 @@ function NybHeroBalance({
   return /* @__PURE__ */ jsxs("div", { className: cx(ELEVATED_CARD, "flex h-full flex-col gap-4 p-6"), children: [
     /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between gap-3", children: [
       /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5", children: [
-        /* @__PURE__ */ jsx("h3", { className: "text-sm font-semibold text-foreground", children: title }),
+        /* @__PURE__ */ jsx("h3", { className: "text-xs font-semibold uppercase tracking-wide text-foreground", children: title }),
         verified && /* @__PURE__ */ jsx(BadgeCheck, { className: "h-4 w-4 text-info", "aria-hidden": true })
       ] }),
       currencyCode && /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-muted-foreground", children: currencyCode })
@@ -207,16 +207,10 @@ function NybHeroBalance({
         "$",
         whole
       ] }),
-      /* @__PURE__ */ jsxs("span", { className: "ml-0.5 align-top text-2xl font-bold tracking-tight text-foreground sm:text-3xl", children: [
-        ".",
-        cents
-      ] })
+      /* @__PURE__ */ jsx("span", { className: "ml-0.5 align-top text-2xl font-bold tracking-tight text-foreground sm:text-3xl", children: cents })
     ] }),
     /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap items-center gap-4", children: [
-      periodControl ?? /* @__PURE__ */ jsxs("span", { className: "inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground", children: [
-        periodLabel,
-        /* @__PURE__ */ jsx(ChevronDown, { className: "h-3 w-3", "aria-hidden": true })
-      ] }),
+      periodControl ?? /* @__PURE__ */ jsx("span", { className: "inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground", children: periodLabel }),
       inflow && /* @__PURE__ */ jsxs("span", { className: "inline-flex items-center gap-1 text-xs font-medium text-success", children: [
         /* @__PURE__ */ jsx(ArrowUpRight, { className: "h-3.5 w-3.5", "aria-hidden": true }),
         inflow
@@ -226,7 +220,7 @@ function NybHeroBalance({
         outflow
       ] })
     ] }),
-    /* @__PURE__ */ jsx("div", { className: "-mx-2 mt-auto h-44 sm:h-48 select-none", children: chart ?? /* @__PURE__ */ jsx("div", { className: "flex h-full items-center justify-center text-xs text-muted-foreground", children: emptyChartLabel }) })
+    /* @__PURE__ */ jsx("div", { className: "-mx-2 mt-auto h-44 sm:h-48 select-none [&_.recharts-wrapper]:outline-none [&_.recharts-surface]:outline-none [&_[tabindex]]:outline-none [&_.recharts-cartesian-axis-tick-value]:pointer-events-none", children: chart ?? /* @__PURE__ */ jsx("div", { className: "flex h-full items-center justify-center text-xs text-muted-foreground", children: emptyChartLabel }) })
   ] });
 }
 function NybAccountsPanel({
@@ -259,8 +253,8 @@ function NybAccountsPanel({
       /* @__PURE__ */ jsx("div", { className: "flex h-7 w-7 items-center justify-center rounded-full flex-shrink-0 bg-muted", children: /* @__PURE__ */ jsx(Wallet, { className: "h-3.5 w-3.5 text-muted-foreground", "aria-hidden": true }) })
     ] }),
     /* @__PURE__ */ jsxs("div", { className: "mt-2 pt-2 border-t border-border flex items-center gap-1.5 flex-wrap", children: [
-      /* @__PURE__ */ jsx("span", { className: "rounded-full bg-secondary px-1.5 py-0 text-[10px] uppercase text-secondary-foreground", children: bal.currency }),
-      bal.isDefault && /* @__PURE__ */ jsxs("span", { className: "inline-flex items-center gap-0.5 rounded-full bg-primary px-1.5 py-0 text-[10px] text-primary-foreground", children: [
+      /* @__PURE__ */ jsx("span", { className: "inline-flex items-center rounded-full bg-secondary px-1.5 py-0 text-[10px] font-medium uppercase text-secondary-foreground", children: bal.currency }),
+      bal.isDefault && /* @__PURE__ */ jsxs("span", { className: "inline-flex items-center gap-0.5 rounded-full bg-primary px-1.5 py-0 text-[10px] font-medium text-primary-foreground", children: [
         /* @__PURE__ */ jsx(Star, { className: "h-2.5 w-2.5 fill-current", "aria-hidden": true }),
         defaultLabel
       ] })
@@ -269,7 +263,7 @@ function NybAccountsPanel({
   const footerClass = "mt-auto inline-flex items-center justify-center gap-1 rounded-md border border-border bg-background px-3 py-2 text-xs font-medium text-foreground hover:bg-muted";
   return /* @__PURE__ */ jsxs("div", { className: cx(ELEVATED_CARD, "flex h-full flex-col gap-3 p-5"), children: [
     /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between", children: [
-      /* @__PURE__ */ jsx("h3", { className: "text-xs font-semibold uppercase tracking-wide text-muted-foreground", children: title }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xs font-semibold uppercase tracking-wide text-foreground", children: title }),
       /* @__PURE__ */ jsx("span", { className: "text-xs text-muted-foreground", children: activeLabel })
     ] }),
     accounts.length === 0 ? /* @__PURE__ */ jsx("p", { className: "text-sm text-muted-foreground", children: emptyLabel }) : /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-2", children: [
@@ -332,10 +326,7 @@ function NybKpiCard({
         prefix,
         whole
       ] }),
-      cents !== void 0 && /* @__PURE__ */ jsxs("span", { className: "ml-0.5 align-top text-base font-bold tracking-tight text-foreground", children: [
-        ".",
-        cents
-      ] })
+      cents !== void 0 && /* @__PURE__ */ jsx("span", { className: "ml-0.5 align-top text-base font-bold tracking-tight text-foreground", children: cents })
     ] }),
     (subtitle || trend) && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
       trend && /* @__PURE__ */ jsx(TrendChip, { trend }),
@@ -364,10 +355,7 @@ function NybWidgetCard({
   return /* @__PURE__ */ jsxs(
     "div",
     {
-      className: cx2(
-        "app-card rounded-lg border bg-card text-card-foreground !p-5 sm:!p-6",
-        className
-      ),
+      className: cx2("app-card bg-card text-card-foreground !p-5 sm:!p-6", className),
       style,
       children: [
         /* @__PURE__ */ jsxs("div", { className: "mb-4 flex items-center justify-between gap-2", children: [
