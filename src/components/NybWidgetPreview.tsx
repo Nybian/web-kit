@@ -137,6 +137,36 @@ function MockDonut() {
   )
 }
 
+/**
+ * Primary-CTA labels for the greeting sample, keyed by the `primary_cta` value a
+ * preset sets in `config_override`. Must stay in step with web-app's
+ * WidgetGreetingBar — the preview's whole job is to show what the dashboard will
+ * actually render.
+ */
+const PRIMARY_CTA_LABELS: Record<string, string> = {
+  new_deal: 'New Deal',
+  new_fuel_order: 'New Fuel Order',
+  fbo_delivery_queue: 'Open Delivery Queue',
+}
+
+/**
+ * Resolve the greeting sample's primary CTA from the widget's config.
+ *
+ * This used to be the hardcoded string 'New Deal', which made the preview lie
+ * for every non-broker category: a fuel_reseller or FBO preset still previewed a
+ * broker CTA, and no amount of changing the category could alter it. The config
+ * is already on the widget (`ResolvedWidget.config`) and already populated by
+ * both callers — the wizard reads it from the real resolved config, and the
+ * by-category editor passes `config_override` — so nothing new needs plumbing.
+ *
+ * 'New Deal' remains the fallback for an unset/unknown value, matching the
+ * dashboard's own behavior when a preset predates `primary_cta`.
+ */
+function primaryCtaLabel(config: Record<string, unknown> | null): string {
+  const key = typeof config?.primary_cta === 'string' ? config.primary_cta : ''
+  return PRIMARY_CTA_LABELS[key] ?? 'New Deal'
+}
+
 export function NybWidgetPreview({ widget }: { widget: ResolvedWidget }) {
   const code = widget.code ?? ''
   const title = widget.name ?? code ?? 'Widget'
@@ -156,7 +186,7 @@ export function NybWidgetPreview({ widget }: { widget: ResolvedWidget }) {
       <div className="space-y-2">
         <p className="text-lg font-semibold text-foreground">Welcome back, Alex</p>
         <div className="flex gap-2">
-          {['New Deal', 'Send', 'Top Up'].map((label, i) => (
+          {[primaryCtaLabel(widget.config), 'Send', 'Top Up'].map((label, i) => (
             <span
               key={label}
               className={

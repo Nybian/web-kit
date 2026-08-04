@@ -560,6 +560,15 @@ var TX_ROWS = [
 function MockDonut() {
   return /* @__PURE__ */ jsx("div", { className: "grid h-full w-full place-items-center", children: /* @__PURE__ */ jsx("div", { className: "h-28 w-28 rounded-full border-[14px] border-success/70 [border-bottom-color:hsl(var(--destructive)/0.6)] [border-left-color:hsl(var(--destructive)/0.6)]" }) });
 }
+var PRIMARY_CTA_LABELS = {
+  new_deal: "New Deal",
+  new_fuel_order: "New Fuel Order",
+  fbo_delivery_queue: "Open Delivery Queue"
+};
+function primaryCtaLabel(config) {
+  const key = typeof config?.primary_cta === "string" ? config.primary_cta : "";
+  return PRIMARY_CTA_LABELS[key] ?? "New Deal";
+}
 function NybWidgetPreview({ widget }) {
   const code = widget.code ?? "";
   const title = widget.name ?? code ?? "Widget";
@@ -576,7 +585,7 @@ function NybWidgetPreview({ widget }) {
   if (code === "greeting_quick_actions") {
     return /* @__PURE__ */ jsxs("div", { className: "space-y-2", children: [
       /* @__PURE__ */ jsx("p", { className: "text-lg font-semibold text-foreground", children: "Welcome back, Alex" }),
-      /* @__PURE__ */ jsx("div", { className: "flex gap-2", children: ["New Deal", "Send", "Top Up"].map((label, i) => /* @__PURE__ */ jsx(
+      /* @__PURE__ */ jsx("div", { className: "flex gap-2", children: [primaryCtaLabel(widget.config), "Send", "Top Up"].map((label, i) => /* @__PURE__ */ jsx(
         "span",
         {
           className: i === 0 ? "rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground" : "rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground",
