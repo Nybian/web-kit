@@ -1,6 +1,6 @@
 {
   "name": "@nybian/web-kit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "Shared, framework-light building blocks across Nybian frontends: per-tenant config (portal), design tokens, formatters, presentational widget components, and the widget preview renderer with per-widget mock data. Auth/HTTP stay per-app.",
   "license": "UNLICENSED",

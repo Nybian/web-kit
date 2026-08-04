@@ -161,6 +161,35 @@ export const WIDGET_MANIFEST = {
     defaultRowSpan: 1,
     permissionCode: 'dashboard:read',
   },
+  // The three deal-pipeline sections the release/1.0.6 BrokerDashboard carried
+  // that had no widget equivalent when the dashboard became config-driven. All
+  // three read from the same `useDeals` fetch the KPI row already does, so
+  // enabling them costs no extra request.
+  //
+  // `broker_action_items` is an attention surface — full width and meant to sit
+  // high in the order (a banner below the fold is pointless). The other two are
+  // a ⅔+⅓-style pair of half-width lists, matching the release two-column row.
+  broker_action_items: {
+    kind: 'widget',
+    slot: 'kpi',
+    defaultColSpan: 12,
+    defaultRowSpan: 1,
+    permissionCode: 'dashboard:read',
+  },
+  broker_pipeline: {
+    kind: 'widget',
+    slot: 'kpi',
+    defaultColSpan: 6,
+    defaultRowSpan: 2,
+    permissionCode: 'dashboard:read',
+  },
+  broker_upcoming_flights: {
+    kind: 'widget',
+    slot: 'kpi',
+    defaultColSpan: 6,
+    defaultRowSpan: 2,
+    permissionCode: 'dashboard:read',
+  },
   fuel_kpis: {
     kind: 'widget',
     slot: 'kpi',

@@ -111,8 +111,17 @@ interface NybListRowProps {
     valueTone?: 'success' | 'destructive' | 'default';
     /** Trailing interactive slot (dropdown menu etc.) — web-app only. */
     action?: ReactNode;
+    /**
+     * Spacing between the value and the trailing slot. The release surfaces this
+     * presenter replaced were not uniform: the transaction list paired the amount
+     * with a kebab menu at `gap-2` ('tight'), while the broker deal list paired it
+     * with a status pill at `gap-3` ('roomy') — a pill needs the extra air to read
+     * as a separate object rather than a suffix on the number. Defaults to
+     * 'tight', so existing callers are unchanged.
+     */
+    valueGap?: 'tight' | 'roomy';
 }
-declare function NybListRow({ icon, iconTone, primary, secondary, tertiary, value, valueTone, action, }: Readonly<NybListRowProps>): react.JSX.Element;
+declare function NybListRow({ icon, iconTone, primary, secondary, tertiary, value, valueTone, action, valueGap, }: Readonly<NybListRowProps>): react.JSX.Element;
 interface NybPendingBannerProps {
     icon?: ReactNode;
     message: ReactNode;

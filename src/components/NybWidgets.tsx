@@ -159,16 +159,28 @@ export function NybWidgetCard({
   className,
   style,
 }: Readonly<NybWidgetCardProps>) {
+  // `.app-card` already supplies rounded-xl + bg-card + shadow and forces
+  // `border: none`. Re-declaring `rounded-lg`/`border` here was wrong: the
+  // utilities layer beats the components layer, so `rounded-lg` silently
+  // downgraded the radius to 8px (production tiles are 12px) while `border`
+  // rendered nothing at all. Let app-card own the frame.
   return (
     <div
-      className={cx(
-        'app-card rounded-lg border bg-card text-card-foreground !p-5 sm:!p-6',
-        className
-      )}
+      className={cx('app-card bg-card text-card-foreground !p-5 sm:!p-6', className)}
       style={style}
     >
       <div className="mb-4 flex items-center justify-between gap-2">
-        <h3 className="text-base font-semibold sm:text-lg">{title}</h3>
+        {/* text-foreground is explicit, not inherited. This heading previously
+            carried no colour class and fell through to the card's
+            `text-card-foreground`. That works in web-app, whose :root defines
+            --card-foreground — but the admin config preview scopes a theme by
+            injecting a small set of vars inline (--card, --background,
+            --foreground, --primary, --border, --input, --muted, --accent,
+            --ring) and does NOT inject --card-foreground, so the title resolved
+            against whatever cascaded in and read as invisible. Every heading
+            that renders correctly in that preview uses --foreground, so bind to
+            it directly rather than depending on a var the host may not set. */}
+        <h3 className="text-base font-semibold text-foreground sm:text-lg">{title}</h3>
         {headerAction}
       </div>
       {children}
@@ -189,6 +201,15 @@ export interface NybListRowProps {
   valueTone?: 'success' | 'destructive' | 'default'
   /** Trailing interactive slot (dropdown menu etc.) — web-app only. */
   action?: ReactNode
+  /**
+   * Spacing between the value and the trailing slot. The release surfaces this
+   * presenter replaced were not uniform: the transaction list paired the amount
+   * with a kebab menu at `gap-2` ('tight'), while the broker deal list paired it
+   * with a status pill at `gap-3` ('roomy') — a pill needs the extra air to read
+   * as a separate object rather than a suffix on the number. Defaults to
+   * 'tight', so existing callers are unchanged.
+   */
+  valueGap?: 'tight' | 'roomy'
 }
 
 export function NybListRow({
@@ -200,6 +221,7 @@ export function NybListRow({
   value,
   valueTone = 'default',
   action,
+  valueGap = 'tight',
 }: Readonly<NybListRowProps>) {
   return (
     <div className="flex items-center justify-between gap-3">
@@ -224,11 +246,16 @@ export function NybListRow({
           )}
         </div>
       </div>
-      <div className="flex shrink-0 items-center gap-2">
+      <div className={cx('flex shrink-0 items-center', valueGap === 'roomy' ? 'gap-3' : 'gap-2')}>
         {value !== undefined && (
+          // tabular-nums: this slot renders money (transaction amounts, payment
+          // request totals, deal values) but is NOT one of the numeric-* type
+          // tokens that bake tabular figures in, so it has to be explicit —
+          // web-app docs/typography.md rule 1. Without it, digits shift width
+          // between rows and the right-aligned column visibly ragged.
           <span
             className={cx(
-              'text-sm font-semibold',
+              'text-sm font-semibold tabular-nums',
               valueTone === 'success' && 'text-success',
               valueTone === 'destructive' && 'text-destructive'
             )}

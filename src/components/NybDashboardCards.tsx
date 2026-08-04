@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { ArrowDownRight, ArrowRight, ArrowUpRight, BadgeCheck, ChevronDown, Star, Wallet } from 'lucide-react'
+import { ArrowDownRight, ArrowRight, ArrowUpRight, BadgeCheck, Star, Wallet } from 'lucide-react'
 
 /**
  * Presentational cores for the hero balance + accounts panel — the last two
@@ -57,7 +57,7 @@ export function NybHeroBalance({
     <div className={cx(ELEVATED_CARD, 'flex h-full flex-col gap-4 p-6')}>
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-1.5">
-          <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-foreground">{title}</h3>
           {verified && <BadgeCheck className="h-4 w-4 text-info" aria-hidden />}
         </div>
         {currencyCode && (
@@ -76,10 +76,11 @@ export function NybHeroBalance({
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
+        {/* Static chip carries NO chevron — it is not interactive. The caret only
+            appears when the host injects a real `periodControl` dropdown. */}
         {periodControl ?? (
           <span className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground">
             {periodLabel}
-            <ChevronDown className="h-3 w-3" aria-hidden />
           </span>
         )}
         {inflow && (
@@ -96,9 +97,25 @@ export function NybHeroBalance({
         )}
       </div>
 
-      {/* select-none — a click/drag on the SVG otherwise triggers native text
-          selection across the axis labels (NYB-528). */}
-      <div className="-mx-2 mt-auto h-44 sm:h-48 select-none">
+      {/* NYB-528 — browser behaviors to suppress on this decorative chart. All
+          five guards must stay together; dropping any one lets the "chart looks
+          selected" bug back in:
+            • select-none: a click/drag on the SVG otherwise triggers the native
+              text-selection highlight across the axis labels and chart.
+            • outline-none on [tabindex] descendants: recharts renders internal
+              tabIndex={-1} elements (each zIndex-portal <g>, the tooltip's
+              <div>). A mouse click focuses the layer under the cursor and
+              Chrome paints its native `outline: auto` ring around it.
+            • pointer-events-none on the axis tick labels: date/amount texts stop
+              receiving mouse events entirely, so they can't take focus, hand
+              focus to their layer, or be text-selected. (The plot area keeps
+              pointer events — they drive the hover tooltip.)
+            • outline-none on .recharts-wrapper/.recharts-surface: belt and
+              suspenders if the host ever re-enables the a11y layer.
+          The host must ALSO pass accessibilityLayer={false} on its chart —
+          recharts v3 otherwise puts tabindex="0" + role="application" on the
+          <svg>, so clicking the graph focuses it. */}
+      <div className="-mx-2 mt-auto h-44 sm:h-48 select-none [&_.recharts-wrapper]:outline-none [&_.recharts-surface]:outline-none [&_[tabindex]]:outline-none [&_.recharts-cartesian-axis-tick-value]:pointer-events-none [&_.recharts-cartesian-axis-tick-value]:[font-variant-numeric:tabular-nums]">
         {chart ?? (
           <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
             {emptyChartLabel}
@@ -165,7 +182,14 @@ export function NybAccountsPanel({
           </p>
           <p className="text-base font-bold text-foreground tracking-tight truncate leading-tight mt-0.5">
             ${bal.whole}
-            <span className="text-xs font-normal text-muted-foreground">.{bal.cents}</span>
+            {/* Superscript cents, no decimal point — $1,498¹⁰ not $1,498.¹⁰ (NYB-598).
+                That sweep fixed NybHeroBalance and NybKpiCard but missed this row, so
+                the wallets panel kept rendering a dot right under a dotless hero.
+                `align-top` is required, not cosmetic: without it the cents sit on the
+                baseline and a dotless "$24,903 86" reads as two numbers. */}
+            <span className="ml-0.5 align-top text-xs font-normal text-muted-foreground">
+              {bal.cents}
+            </span>
           </p>
         </div>
         <div className="flex h-7 w-7 items-center justify-center rounded-full flex-shrink-0 bg-muted">
@@ -173,11 +197,14 @@ export function NybAccountsPanel({
         </div>
       </div>
       <div className="mt-2 pt-2 border-t border-border flex items-center gap-1.5 flex-wrap">
-        <span className="rounded-full bg-secondary px-1.5 py-0 text-[10px] uppercase text-secondary-foreground">
+        {/* Mirrors the host Badge base (inline-flex items-center + font-medium)
+            so these pills sit on the same baseline and weight as every other
+            Badge in the app. */}
+        <span className="inline-flex items-center rounded-full bg-secondary px-1.5 py-0 text-[10px] font-medium uppercase text-secondary-foreground">
           {bal.currency}
         </span>
         {bal.isDefault && (
-          <span className="inline-flex items-center gap-0.5 rounded-full bg-primary px-1.5 py-0 text-[10px] text-primary-foreground">
+          <span className="inline-flex items-center gap-0.5 rounded-full bg-primary px-1.5 py-0 text-[10px] font-medium text-primary-foreground">
             <Star className="h-2.5 w-2.5 fill-current" aria-hidden />
             {defaultLabel}
           </span>
@@ -192,9 +219,7 @@ export function NybAccountsPanel({
   return (
     <div className={cx(ELEVATED_CARD, 'flex h-full flex-col gap-3 p-5')}>
       <div className="flex items-center justify-between">
-        <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-          {title}
-        </h3>
+        <h3 className="text-xs font-semibold uppercase tracking-wide text-foreground">{title}</h3>
         <span className="text-xs text-muted-foreground">{activeLabel}</span>
       </div>
 

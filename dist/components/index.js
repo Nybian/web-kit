@@ -1,5 +1,5 @@
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
-import { BadgeCheck, ChevronDown, ArrowUpRight, ArrowDownRight, ArrowRight, MoreHorizontal, Bell, X, TrendingUp, TrendingDown, ArrowDownLeft, Wallet, Star, ArrowUp, ArrowDown } from 'lucide-react';
+import { BadgeCheck, ArrowUpRight, ArrowDownRight, ArrowRight, MoreHorizontal, Bell, X, TrendingUp, TrendingDown, Zap, ArrowDownLeft, Wallet, Star, ArrowUp, ArrowDown } from 'lucide-react';
 
 // src/portal/resolve.ts
 var MOBILE_BOTTOM_BAR_MAX = 4;
@@ -197,7 +197,7 @@ function NybHeroBalance({
   return /* @__PURE__ */ jsxs("div", { className: cx(ELEVATED_CARD, "flex h-full flex-col gap-4 p-6"), children: [
     /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between gap-3", children: [
       /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1.5", children: [
-        /* @__PURE__ */ jsx("h3", { className: "text-sm font-semibold text-foreground", children: title }),
+        /* @__PURE__ */ jsx("h3", { className: "text-xs font-semibold uppercase tracking-wide text-foreground", children: title }),
         verified && /* @__PURE__ */ jsx(BadgeCheck, { className: "h-4 w-4 text-info", "aria-hidden": true })
       ] }),
       currencyCode && /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-muted-foreground", children: currencyCode })
@@ -207,16 +207,10 @@ function NybHeroBalance({
         "$",
         whole
       ] }),
-      /* @__PURE__ */ jsxs("span", { className: "ml-0.5 align-top text-2xl font-bold tracking-tight text-foreground sm:text-3xl", children: [
-        ".",
-        cents
-      ] })
+      /* @__PURE__ */ jsx("span", { className: "ml-0.5 align-top text-2xl font-bold tracking-tight text-foreground sm:text-3xl", children: cents })
     ] }),
     /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap items-center gap-4", children: [
-      periodControl ?? /* @__PURE__ */ jsxs("span", { className: "inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground", children: [
-        periodLabel,
-        /* @__PURE__ */ jsx(ChevronDown, { className: "h-3 w-3", "aria-hidden": true })
-      ] }),
+      periodControl ?? /* @__PURE__ */ jsx("span", { className: "inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground", children: periodLabel }),
       inflow && /* @__PURE__ */ jsxs("span", { className: "inline-flex items-center gap-1 text-xs font-medium text-success", children: [
         /* @__PURE__ */ jsx(ArrowUpRight, { className: "h-3.5 w-3.5", "aria-hidden": true }),
         inflow
@@ -226,7 +220,7 @@ function NybHeroBalance({
         outflow
       ] })
     ] }),
-    /* @__PURE__ */ jsx("div", { className: "-mx-2 mt-auto h-44 sm:h-48 select-none", children: chart ?? /* @__PURE__ */ jsx("div", { className: "flex h-full items-center justify-center text-xs text-muted-foreground", children: emptyChartLabel }) })
+    /* @__PURE__ */ jsx("div", { className: "-mx-2 mt-auto h-44 sm:h-48 select-none [&_.recharts-wrapper]:outline-none [&_.recharts-surface]:outline-none [&_[tabindex]]:outline-none [&_.recharts-cartesian-axis-tick-value]:pointer-events-none [&_.recharts-cartesian-axis-tick-value]:[font-variant-numeric:tabular-nums]", children: chart ?? /* @__PURE__ */ jsx("div", { className: "flex h-full items-center justify-center text-xs text-muted-foreground", children: emptyChartLabel }) })
   ] });
 }
 function NybAccountsPanel({
@@ -250,17 +244,14 @@ function NybAccountsPanel({
         /* @__PURE__ */ jsxs("p", { className: "text-base font-bold text-foreground tracking-tight truncate leading-tight mt-0.5", children: [
           "$",
           bal.whole,
-          /* @__PURE__ */ jsxs("span", { className: "text-xs font-normal text-muted-foreground", children: [
-            ".",
-            bal.cents
-          ] })
+          /* @__PURE__ */ jsx("span", { className: "ml-0.5 align-top text-xs font-normal text-muted-foreground", children: bal.cents })
         ] })
       ] }),
       /* @__PURE__ */ jsx("div", { className: "flex h-7 w-7 items-center justify-center rounded-full flex-shrink-0 bg-muted", children: /* @__PURE__ */ jsx(Wallet, { className: "h-3.5 w-3.5 text-muted-foreground", "aria-hidden": true }) })
     ] }),
     /* @__PURE__ */ jsxs("div", { className: "mt-2 pt-2 border-t border-border flex items-center gap-1.5 flex-wrap", children: [
-      /* @__PURE__ */ jsx("span", { className: "rounded-full bg-secondary px-1.5 py-0 text-[10px] uppercase text-secondary-foreground", children: bal.currency }),
-      bal.isDefault && /* @__PURE__ */ jsxs("span", { className: "inline-flex items-center gap-0.5 rounded-full bg-primary px-1.5 py-0 text-[10px] text-primary-foreground", children: [
+      /* @__PURE__ */ jsx("span", { className: "inline-flex items-center rounded-full bg-secondary px-1.5 py-0 text-[10px] font-medium uppercase text-secondary-foreground", children: bal.currency }),
+      bal.isDefault && /* @__PURE__ */ jsxs("span", { className: "inline-flex items-center gap-0.5 rounded-full bg-primary px-1.5 py-0 text-[10px] font-medium text-primary-foreground", children: [
         /* @__PURE__ */ jsx(Star, { className: "h-2.5 w-2.5 fill-current", "aria-hidden": true }),
         defaultLabel
       ] })
@@ -269,7 +260,7 @@ function NybAccountsPanel({
   const footerClass = "mt-auto inline-flex items-center justify-center gap-1 rounded-md border border-border bg-background px-3 py-2 text-xs font-medium text-foreground hover:bg-muted";
   return /* @__PURE__ */ jsxs("div", { className: cx(ELEVATED_CARD, "flex h-full flex-col gap-3 p-5"), children: [
     /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between", children: [
-      /* @__PURE__ */ jsx("h3", { className: "text-xs font-semibold uppercase tracking-wide text-muted-foreground", children: title }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xs font-semibold uppercase tracking-wide text-foreground", children: title }),
       /* @__PURE__ */ jsx("span", { className: "text-xs text-muted-foreground", children: activeLabel })
     ] }),
     accounts.length === 0 ? /* @__PURE__ */ jsx("p", { className: "text-sm text-muted-foreground", children: emptyLabel }) : /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-2", children: [
@@ -332,10 +323,7 @@ function NybKpiCard({
         prefix,
         whole
       ] }),
-      cents !== void 0 && /* @__PURE__ */ jsxs("span", { className: "ml-0.5 align-top text-base font-bold tracking-tight text-foreground", children: [
-        ".",
-        cents
-      ] })
+      cents !== void 0 && /* @__PURE__ */ jsx("span", { className: "ml-0.5 align-top text-base font-bold tracking-tight text-foreground", children: cents })
     ] }),
     (subtitle || trend) && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
       trend && /* @__PURE__ */ jsx(TrendChip, { trend }),
@@ -364,14 +352,11 @@ function NybWidgetCard({
   return /* @__PURE__ */ jsxs(
     "div",
     {
-      className: cx2(
-        "app-card rounded-lg border bg-card text-card-foreground !p-5 sm:!p-6",
-        className
-      ),
+      className: cx2("app-card bg-card text-card-foreground !p-5 sm:!p-6", className),
       style,
       children: [
         /* @__PURE__ */ jsxs("div", { className: "mb-4 flex items-center justify-between gap-2", children: [
-          /* @__PURE__ */ jsx("h3", { className: "text-base font-semibold sm:text-lg", children: title }),
+          /* @__PURE__ */ jsx("h3", { className: "text-base font-semibold text-foreground sm:text-lg", children: title }),
           headerAction
         ] }),
         children
@@ -387,7 +372,8 @@ function NybListRow({
   tertiary,
   value,
   valueTone = "default",
-  action
+  action,
+  valueGap = "tight"
 }) {
   return /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-3", children: [
     /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 items-center gap-3", children: [
@@ -409,12 +395,17 @@ function NybListRow({
         tertiary && /* @__PURE__ */ jsx("p", { className: "truncate font-mono text-xs text-muted-foreground/60", children: tertiary })
       ] })
     ] }),
-    /* @__PURE__ */ jsxs("div", { className: "flex shrink-0 items-center gap-2", children: [
-      value !== void 0 && /* @__PURE__ */ jsx(
+    /* @__PURE__ */ jsxs("div", { className: cx2("flex shrink-0 items-center", valueGap === "roomy" ? "gap-3" : "gap-2"), children: [
+      value !== void 0 && // tabular-nums: this slot renders money (transaction amounts, payment
+      // request totals, deal values) but is NOT one of the numeric-* type
+      // tokens that bake tabular figures in, so it has to be explicit —
+      // web-app docs/typography.md rule 1. Without it, digits shift width
+      // between rows and the right-aligned column visibly ragged.
+      /* @__PURE__ */ jsx(
         "span",
         {
           className: cx2(
-            "text-sm font-semibold",
+            "text-sm font-semibold tabular-nums",
             valueTone === "success" && "text-success",
             valueTone === "destructive" && "text-destructive"
           ),
@@ -493,6 +484,23 @@ var LIST_SAMPLES = {
       { primary: "Skyline Ops", secondary: "Due 3 days ago", value: "$2,150" }
     ]
   },
+  // Broker pipeline — one row per deal status, count on the left, bucket value
+  // on the right (web-app's WidgetBrokerPipeline renders the live equivalent).
+  broker_pipeline: {
+    rows: [
+      { primary: "Quoted", secondary: "4 deals", value: "$96,500" },
+      { primary: "Booked", secondary: "2 deals", value: "$54,000" },
+      { primary: "In review", secondary: "3 deals", value: "$35,500" }
+    ]
+  },
+  // Broker upcoming flights — route on the left, departure date as the value.
+  broker_upcoming_flights: {
+    rows: [
+      { primary: "KTEB \u2192 KMIA", secondary: "Meridian Group", value: "Aug 12" },
+      { primary: "EGLL \u2192 LFPB", secondary: "Ardent Capital", value: "Aug 15" },
+      { primary: "KVNY \u2192 KLAS", secondary: "Cobalt Air", value: "Aug 19" }
+    ]
+  },
   received_payment_requests: {
     rows: [
       { primary: "Acme Corp", secondary: "Jul 2, 2026", value: "$4,200" },
@@ -552,6 +560,15 @@ var TX_ROWS = [
 function MockDonut() {
   return /* @__PURE__ */ jsx("div", { className: "grid h-full w-full place-items-center", children: /* @__PURE__ */ jsx("div", { className: "h-28 w-28 rounded-full border-[14px] border-success/70 [border-bottom-color:hsl(var(--destructive)/0.6)] [border-left-color:hsl(var(--destructive)/0.6)]" }) });
 }
+var PRIMARY_CTA_LABELS = {
+  new_deal: "New Deal",
+  new_fuel_order: "New Fuel Order",
+  fbo_delivery_queue: "Open Delivery Queue"
+};
+function primaryCtaLabel(config) {
+  const key = typeof config?.primary_cta === "string" ? config.primary_cta : "";
+  return PRIMARY_CTA_LABELS[key] ?? "New Deal";
+}
 function NybWidgetPreview({ widget }) {
   const code = widget.code ?? "";
   const title = widget.name ?? code ?? "Widget";
@@ -568,7 +585,7 @@ function NybWidgetPreview({ widget }) {
   if (code === "greeting_quick_actions") {
     return /* @__PURE__ */ jsxs("div", { className: "space-y-2", children: [
       /* @__PURE__ */ jsx("p", { className: "text-lg font-semibold text-foreground", children: "Welcome back, Alex" }),
-      /* @__PURE__ */ jsx("div", { className: "flex gap-2", children: ["New Deal", "Send", "Top Up"].map((label, i) => /* @__PURE__ */ jsx(
+      /* @__PURE__ */ jsx("div", { className: "flex gap-2", children: [primaryCtaLabel(widget.config), "Send", "Top Up"].map((label, i) => /* @__PURE__ */ jsx(
         "span",
         {
           className: i === 0 ? "rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground" : "rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground",
@@ -692,6 +709,25 @@ function NybWidgetPreview({ widget }) {
       ["Upcoming", "5"]
     ].map(([label, value]) => /* @__PURE__ */ jsx(NybKpiCard, { title: label, whole: value, subtitle: "30 days" }, label)) });
   }
+  if (code === "broker_action_items") {
+    return /* @__PURE__ */ jsx("div", { className: "rounded-lg border border-warning/30 bg-warning/10 p-4", children: /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-3", children: [
+      /* @__PURE__ */ jsx(Zap, { className: "mt-0.5 h-5 w-5 shrink-0 text-warning", "aria-hidden": true }),
+      /* @__PURE__ */ jsxs("div", { className: "flex-1 space-y-2", children: [
+        /* @__PURE__ */ jsx("p", { className: "text-sm font-semibold text-foreground", children: "3 deals need your attention" }),
+        /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-2", children: ["KTEB \u2192 KMIA", "EGLL \u2192 LFPB", "KVNY \u2192 KLAS"].map((route) => /* @__PURE__ */ jsxs(
+          "span",
+          {
+            className: "inline-flex items-center gap-2 rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-foreground",
+            children: [
+              route,
+              /* @__PURE__ */ jsx("span", { className: "rounded-full bg-secondary px-1.5 text-[10px] uppercase text-secondary-foreground", children: "In review" })
+            ]
+          },
+          route
+        )) })
+      ] })
+    ] }) });
+  }
   if (code === "pending_banner") {
     return /* @__PURE__ */ jsx(
       NybPendingBanner,
@@ -772,7 +808,8 @@ var SAMPLE_SPECIAL_CODES = [
   "flyer_hero_balance",
   "flyer_accounts_panel",
   "flyer_kpis",
-  "flyer_money_movement"
+  "flyer_money_movement",
+  "broker_action_items"
 ];
 var HANDLED_CODES = /* @__PURE__ */ new Set([
   ...Object.keys(KPI_SAMPLES),
